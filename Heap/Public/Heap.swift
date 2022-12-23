@@ -1,32 +1,39 @@
 public struct Heap<Element> {
-  var _storage: [Element] = []
-  var _areInAscendingOrder: (Element, Element) -> Bool
+  @usableFromInline
+  var storage: [Element] = []
   
+  @usableFromInline
+  var areInAscendingOrder: (Element, Element) -> Bool
+  
+  @inlinable @inline(__always)
   public init(
     orderedBy areInAscendingOrder:
       @escaping (Element, Element) -> Bool
   ) {
-    _areInAscendingOrder = areInAscendingOrder
+    self.areInAscendingOrder = areInAscendingOrder
   }
   
+  @inlinable @inline(__always)
   public init(
     _ elements: [Element],
     orderedBy areInAscendingOrder:
       @escaping (Element, Element) -> Bool
   ) {
-    _storage = elements
-    _areInAscendingOrder = areInAscendingOrder
-    _heapify()
+    storage = elements
+    self.areInAscendingOrder = areInAscendingOrder
+    heapify()
   }
 }
 
 extension Heap where Element: Comparable {
+  @inlinable @inline(__always)
   public init() {
     self.init { a, b in
       a < b
     }
   }
   
+  @inlinable @inline(__always)
   public init(_ elements: [Element]) {
     self.init(elements) { a, b in
       a < b
@@ -35,83 +42,93 @@ extension Heap where Element: Comparable {
 }
 
 extension Heap {
+  @inlinable @inline(__always)
   public var isEmpty: Bool {
-    _storage.isEmpty
+    storage.isEmpty
   }
   
+  @inlinable @inline(__always)
   public var count: Int {
-    _storage.count
+    storage.count
   }
   
+  @inlinable @inline(__always)
   public var min: Element? {
-    _storage.first
+    storage.first
   }
   
+  @inlinable
   public var max: Element? {
-    if _storage.count > 2 {
-      let a = _storage[1]
-      let b = _storage[2]
-      return _areInAscendingOrder(a, b) ? b : a
+    if storage.count > 2 {
+      let a = storage[1]
+      let b = storage[2]
+      return areInAscendingOrder(a, b) ? b : a
     } else {
-      return _storage.last
+      return storage.last
     }
   }
   
+  @inlinable @inline(__always)
   public var unorderedElements: [Element] {
-    _storage
+    storage
   }
   
+  @inlinable @inline(__always)
   public mutating func insert(_ newElement: Element) {
-    _storage.append(newElement)
-    _trickleUp(from: _storage.count - 1)
+    storage.append(newElement)
+    trickleUp(from: storage.count - 1)
   }
   
+  @inlinable
   public mutating func insert(contentsOf newElements: [Element]) {
-    if (newElements.count * 2) > _storage.count {
-      _storage += newElements
-      _heapify()
+    if (newElements.count * 2) > storage.count {
+      storage += newElements
+      heapify()
     } else {
-      _storage.reserveCapacity(newElements.count)
+      storage.reserveCapacity(newElements.count)
       for newElement in newElements {
         insert(newElement)
       }
     }
   }
   
+  @inlinable
   public mutating func popMin() -> Element? {
-    if _storage.count > 1 {
-      _storage.swapAt(0, _storage.count - 1)
-      let removedElement = _storage.removeLast()
-      _trickleDown(from: 0)
+    if storage.count > 1 {
+      storage.swapAt(0, storage.count - 1)
+      let removedElement = storage.removeLast()
+      trickleDown(from: 0)
       return removedElement
     } else {
-      return _storage.popLast()
+      return storage.popLast()
     }
   }
   
+  @inlinable
   public mutating func popMax() -> Element? {
-    if _storage.count > 2 {
+    if storage.count > 2 {
       let maxElementIndex =
-        _areInAscendingOrder(_storage[1], _storage[2]) ? 2 : 1
-      _storage.swapAt(maxElementIndex, _storage.count - 1)
-      let removedElement = _storage.removeLast()
-      if maxElementIndex < _storage.count {
-        _trickleDown(from: maxElementIndex)
+        areInAscendingOrder(storage[1], storage[2]) ? 2 : 1
+      storage.swapAt(maxElementIndex, storage.count - 1)
+      let removedElement = storage.removeLast()
+      if maxElementIndex < storage.count {
+        trickleDown(from: maxElementIndex)
       }
       return removedElement
     } else {
-      return _storage.popLast()
+      return storage.popLast()
     }
   }
   
+  @inlinable
   @discardableResult
   public mutating func remove(at index: Int) -> Element {
-    precondition(index >= 0 && index < _storage.count)
-    _storage.swapAt(index, _storage.count - 1)
-    let removedElement = _storage.removeLast()
-    if index < _storage.count {
-      _trickleDown(from: index)
-      _trickleUp(from: index)
+    precondition(index >= 0 && index < storage.count)
+    storage.swapAt(index, storage.count - 1)
+    let removedElement = storage.removeLast()
+    if index < storage.count {
+      trickleDown(from: index)
+      trickleUp(from: index)
     }
     return removedElement
   }
