@@ -10,6 +10,7 @@
 		0B41CE202906409A0050F82B /* Heap.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B41CE1F2906409A0050F82B /* Heap.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B41CE27290640CD0050F82B /* Heap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B41CE26290640CD0050F82B /* Heap.swift */; };
 		0BA763522926843E0080BF75 /* Heap+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA763512926843E0080BF75 /* Heap+.swift */; };
+		0BE677E32967294D00DC3276 /* Heap+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE677E22967294D00DC3276 /* Heap+Equatable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		0B41CE1F2906409A0050F82B /* Heap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Heap.h; sourceTree = "<group>"; };
 		0B41CE26290640CD0050F82B /* Heap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heap.swift; sourceTree = "<group>"; };
 		0BA763512926843E0080BF75 /* Heap+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Heap+.swift"; sourceTree = "<group>"; };
+		0BE677E22967294D00DC3276 /* Heap+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Heap+Equatable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				0B41CE26290640CD0050F82B /* Heap.swift */,
+				0BE677E22967294D00DC3276 /* Heap+Equatable.swift */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0B41CE27290640CD0050F82B /* Heap.swift in Sources */,
+				0BE677E32967294D00DC3276 /* Heap+Equatable.swift in Sources */,
 				0BA763522926843E0080BF75 /* Heap+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
