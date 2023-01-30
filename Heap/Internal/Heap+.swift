@@ -95,15 +95,15 @@ extension Heap {
   @usableFromInline
   mutating func trickleDown(from index: Int) {
     precondition(index >= 0 && index < storage.count)
-    var currentIndex = index
+    var currIndex = index
     while true {
       let (children, grandchildren) =
-        childrenAndGrandchildrenIndices(of: currentIndex)
+        childrenAndGrandchildrenIndices(of: currIndex)
       guard !children.isEmpty else {
         break
       }
       
-      if indexIsAtEvenLevel(currentIndex) {
+      if indexIsAtEvenLevel(currIndex) {
         var candidate = children.min { a, b in
           areInAscendingOrder(storage[a], storage[b])
         }!
@@ -118,9 +118,9 @@ extension Heap {
         }
         
         let a = storage[candidate]
-        let b = storage[currentIndex]
+        let b = storage[currIndex]
         if areInAscendingOrder(a, b) {
-          storage.swapAt(candidate, currentIndex)
+          storage.swapAt(candidate, currIndex)
           if candidateIsGrandChild {
             let childIndex = parentIndex(of: candidate)!
             let a = storage[childIndex]
@@ -129,7 +129,7 @@ extension Heap {
               storage.swapAt(candidate, childIndex)
             }
           }
-          currentIndex = candidate
+          currIndex = candidate
         } else {
           break
         }
@@ -147,10 +147,10 @@ extension Heap {
           }
         }
         
-        let a = storage[currentIndex]
+        let a = storage[currIndex]
         let b = storage[candidate]
         if areInAscendingOrder(a, b) {
-          storage.swapAt(candidate, currentIndex)
+          storage.swapAt(candidate, currIndex)
           if candidateIsGrandChild {
             let childIndex = parentIndex(of: candidate)!
             let a = storage[candidate]
@@ -159,7 +159,7 @@ extension Heap {
               storage.swapAt(candidate, childIndex)
             }
           }
-          currentIndex = candidate
+          currIndex = candidate
         } else {
           break
         }
@@ -195,25 +195,25 @@ extension Heap {
   }
   
   private mutating func trickleUpMin(from index: Int) {
-    var currentIndex = index
-    while let grandParentIndex = grandParentIndex(of: currentIndex) {
-      let a = storage[currentIndex]
+    var currIndex = index
+    while let grandParentIndex = grandParentIndex(of: currIndex) {
+      let a = storage[currIndex]
       let b = storage[grandParentIndex]
       if areInAscendingOrder(a, b) {
-        storage.swapAt(currentIndex, grandParentIndex)
-        currentIndex = grandParentIndex
+        storage.swapAt(currIndex, grandParentIndex)
+        currIndex = grandParentIndex
       }
     }
   }
   
   private mutating func trickleUpMax(from index: Int) {
-    var currentIndex = index
-    while let grandParentIndex = grandParentIndex(of: currentIndex) {
+    var currIndex = index
+    while let grandParentIndex = grandParentIndex(of: currIndex) {
       let a = storage[grandParentIndex]
-      let b = storage[currentIndex]
+      let b = storage[currIndex]
       if areInAscendingOrder(a, b) {
-        storage.swapAt(currentIndex, grandParentIndex)
-        currentIndex = grandParentIndex
+        storage.swapAt(currIndex, grandParentIndex)
+        currIndex = grandParentIndex
       }
     }
   }
